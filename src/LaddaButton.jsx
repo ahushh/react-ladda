@@ -23,7 +23,7 @@ const omit = (data, keys) => {
 }
 
 export default
-class LaddaButton extends Component {
+  class LaddaButton extends Component {
 
   static propTypes = {
     children: PropTypes.node,
@@ -31,6 +31,7 @@ class LaddaButton extends Component {
     progress: PropTypes.number,
     loading: PropTypes.bool,
     disabled: PropTypes.bool,
+    element: PropTypes.string,
 
     // Ladda props
     // eslint-disable-next-line react/no-unused-prop-types
@@ -92,16 +93,16 @@ class LaddaButton extends Component {
 
   render() {
     return (
-      <button
-        {...omit(this.props, OMITTED_PROPS)}
-        className={`ladda-button ${this.props.className || ''}`}
-        ref={this.setNode}
-        disabled={this.props.disabled || this.props.loading}
-      >
+      React.createElement(this.props.element || 'button', {
+        ...omit(this.props, OMITTED_PROPS),
+        className: `ladda-button ${this.props.className || ''}`,
+        ref: this.setNode,
+        disabled: this.props.disabled || this.props.loading,
+      },
         <span className="ladda-label">
           {this.props.children}
         </span>
-      </button>
+      )
     )
   }
 }
