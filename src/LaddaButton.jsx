@@ -23,86 +23,86 @@ const omit = (data, keys) => {
 }
 
 export default
-  class LaddaButton extends Component {
+    class LaddaButton extends Component {
 
-  static propTypes = {
-    children: PropTypes.node,
-    className: PropTypes.string,
-    progress: PropTypes.number,
-    loading: PropTypes.bool,
-    disabled: PropTypes.bool,
-    element: PropTypes.string,
+      static propTypes = {
+        children: PropTypes.node,
+        className: PropTypes.string,
+        progress: PropTypes.number,
+        loading: PropTypes.bool,
+        disabled: PropTypes.bool,
+        element: PropTypes.string,
 
-    // Ladda props
-    // eslint-disable-next-line react/no-unused-prop-types
-    'data-color': PropTypes.string,
-    // eslint-disable-next-line react/no-unused-prop-types
-    'data-size': PropTypes.oneOf(SIZES),
-    // eslint-disable-next-line react/no-unused-prop-types
-    'data-style': PropTypes.oneOf(STYLES),
-    // eslint-disable-next-line react/no-unused-prop-types
-    'data-spinner-size': PropTypes.number,
-    // eslint-disable-next-line react/no-unused-prop-types
-    'data-spinner-color': PropTypes.string,
-    // eslint-disable-next-line react/no-unused-prop-types
-    'data-spinner-lines': PropTypes.number,
-  };
+      // Ladda props
+      // eslint-disable-next-line react/no-unused-prop-types
+        'data-color': PropTypes.string,
+      // eslint-disable-next-line react/no-unused-prop-types
+        'data-size': PropTypes.oneOf(SIZES),
+      // eslint-disable-next-line react/no-unused-prop-types
+        'data-style': PropTypes.oneOf(STYLES),
+      // eslint-disable-next-line react/no-unused-prop-types
+        'data-spinner-size': PropTypes.number,
+      // eslint-disable-next-line react/no-unused-prop-types
+        'data-spinner-color': PropTypes.string,
+      // eslint-disable-next-line react/no-unused-prop-types
+        'data-spinner-lines': PropTypes.number,
+      };
 
-  componentDidMount() {
-    this.laddaInstance = Ladda.create(this.node)
+      componentDidMount() {
+        this.laddaInstance = Ladda.create(this.node)
 
-    if (this.props.loading) {
-      this.laddaInstance.start()
-    }
+        if (this.props.loading) {
+          this.laddaInstance.start()
+        }
 
-    if (!isUndefined(this.props.progress)) {
-      this.laddaInstance.setProgress(this.props.progress)
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.updateLaddaInstance(nextProps)
-  }
-
-  componentWillUnmount() {
-    this.laddaInstance.remove()
-  }
-
-  setNode = (node) => {
-    this.node = node
-  }
-
-  updateLaddaInstance = (props) => {
-    if (props.loading !== this.props.loading) {
-      if (props.loading) {
-        this.laddaInstance.start()
-      } else if (props.disabled) {
-        // .stop removes the attribute "disabled"
-        // .disable calls .stop then adds the attribute "disabled"
-        // see https://github.com/hakimel/Ladda/blob/master/js/ladda.js
-        this.laddaInstance.disable()
-      } else {
-        this.laddaInstance.stop()
+        if (!isUndefined(this.props.progress)) {
+          this.laddaInstance.setProgress(this.props.progress)
+        }
       }
-    }
 
-    if (props.progress !== this.props.progress) {
-      this.laddaInstance.setProgress(props.progress)
-    }
-  }
+      componentWillReceiveProps(nextProps) {
+        this.updateLaddaInstance(nextProps)
+      }
 
-  render() {
-    return (
-      React.createElement(this.props.element || 'button', {
-        ...omit(this.props, OMITTED_PROPS),
-        className: `ladda-button ${this.props.className || ''}`,
-        ref: this.setNode,
-        disabled: this.props.disabled || this.props.loading,
-      },
-        <span className="ladda-label">
-          {this.props.children}
-        </span>
+      componentWillUnmount() {
+        this.laddaInstance.remove()
+      }
+
+      setNode = (node) => {
+        this.node = node
+      }
+
+      updateLaddaInstance = (props) => {
+        if (props.loading !== this.props.loading) {
+          if (props.loading) {
+            this.laddaInstance.start()
+          } else if (props.disabled) {
+          // .stop removes the attribute "disabled"
+          // .disable calls .stop then adds the attribute "disabled"
+          // see https://github.com/hakimel/Ladda/blob/master/js/ladda.js
+            this.laddaInstance.disable()
+          } else {
+            this.laddaInstance.stop()
+          }
+        }
+
+        if (props.progress !== this.props.progress) {
+          this.laddaInstance.setProgress(props.progress)
+        }
+      }
+
+      render() {
+        return (
+        React.createElement(this.props.element || 'button', {
+          ...omit(this.props, OMITTED_PROPS),
+          className: `ladda-button ${this.props.className || ''}`,
+          ref: this.setNode,
+          disabled: this.props.disabled || this.props.loading,
+        },
+          <span className="ladda-label">
+            {this.props.children}
+          </span>
       )
-    )
-  }
+        )
+      }
 }
